@@ -6,6 +6,9 @@ import time as time
 
 physicsClient = p.connect(p.GUI)
 
+# tells pybullet to read in the world described in box.sdf
+p.loadSDF("box.sdf")
+
 for i in range(1000):
     # "steps" (moves forward) the physics inside the world for a small amount of time
     p.stepSimulation()
