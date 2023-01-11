@@ -13,9 +13,11 @@ p.setGravity(0,0,-9.8)
 
 # add a floor
 planeId = p.loadURDF("plane.urdf")
+# body
+planeId = p.loadURDF("body.urdf")
 
 # tells pybullet to read in the world described in box.sdf
-p.loadSDF("boxes.sdf")
+p.loadSDF("world.sdf")
 
 for i in range(1000):
     # "steps" (moves forward) the physics inside the world for a small amount of time
