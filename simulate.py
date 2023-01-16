@@ -40,7 +40,6 @@ for i in range(100):
 
     #print(i)
 
-# add "data" folder to repo if this doesn't work
 numpy.save('data/backLegSensorValues.npy', backLegSensorValues)
 numpy.save('data/frontLegSensorValues.npy', frontLegSensorValues)
 
