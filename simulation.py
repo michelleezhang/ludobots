@@ -26,6 +26,7 @@ class SIMULATION:
             p.stepSimulation()
 
             self.robot.Sense(i)
+            self.robot.Think()
             self.robot.Act(i, self.robot)
 
             # sleep() suspends execution for the given number of seconds

@@ -5,6 +5,8 @@ import pyrosim.pyrosim as pyrosim
 from sensor import SENSOR
 from motor import MOTOR
 
+from pyrosim.neuralNetwork import NEURAL_NETWORK
+
 class ROBOT:
     def __init__(self):
         self.robotId = p.loadURDF("body.urdf")
@@ -12,6 +14,9 @@ class ROBOT:
 
         self.Prepare_To_Sense()
         self.Prepare_To_Act() #???
+
+        # creates a neural network (self.nn), and adds any neurons and synapses to it from brain.nndf.
+        self.nn = NEURAL_NETWORK("brain.nndf")
     
     def Prepare_To_Sense(self):
         self.sensors = {}
@@ -34,6 +39,17 @@ class ROBOT:
             self.motors[jointName] = MOTOR(jointName)
     
     def Act(self, t, robot):
-        for motor in self.motors:
-            self.motors[motor].Set_Value(t, robot, self.robotId)
+        for neuronName in self.nn.Get_Neuron_Names():
+            if self.nn.Is_Motor_Neuron(neuronName):
+                jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
+                desiredAngle = self.nn.Get_Value_Of(neuronName)
+
+                motor = self.motors[jointName]
+                motor.Set_Value(desiredAngle, robot, self.robotId)
+
+                # print(neuronName, jointName, desiredAngle)
+        
+    def Think(self):
+        self.nn.Update()
+        self.nn.Print()
 
