@@ -1,7 +1,7 @@
 import numpy as numpy
 pi_four = numpy.pi / 4.0
 
-num_iterations = 10000
+num_iterations = 1000
 
 max_force = 30
 

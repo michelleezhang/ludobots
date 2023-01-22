@@ -1,4 +1,5 @@
 import pyrosim.pyrosim as pyrosim
+import random
 
 # uses pyrosim to generate a link (aka object)
 # stores in world.sdf file
@@ -53,8 +54,16 @@ def Generate_Brain():
     pyrosim.Send_Synapse( sourceNeuronName = 0 , targetNeuronName = 4 , weight = -1.0 )
     pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = -1.0 )
 
+
+    for i in range(0, 3):           # 0, 1, 2
+        for j in range(3, 5):       #3, 4
+            w = random.uniform(-1, 1)
+            pyrosim.Send_Synapse( sourceNeuronName = i , targetNeuronName = j , weight = w )
+
+
     pyrosim.End()
 
 CreateWorld()
 Generate_Body()
 Generate_Brain()
+
