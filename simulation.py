@@ -9,8 +9,12 @@ import constants as c
 import time as time
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, directOrGUI):
+        # p.DIRECT gives "blind mode", p.GUI shows the animation
+        if directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT) 
+        else:
+            self.physicsClient = p.connect(p.GUI) 
 
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
@@ -36,6 +40,9 @@ class SIMULATION:
 
     def __del__(self):
         p.disconnect()
+    
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
 
         
         

@@ -7,7 +7,6 @@ class SENSOR:
         self.linkName = linkName
 
         self.values = numpy.zeros(c.num_iterations)
-        # print(self.values)
     
     def Get_Value(self, t):
         # storing sensor values

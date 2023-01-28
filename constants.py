@@ -13,3 +13,5 @@ time_step = 1/600 #60
 amplitude = pi_four
 frequency = 25
 offset = 0
+
+numberOfGenerations = 15

@@ -26,7 +26,6 @@ class ROBOT:
 
             # creates a SENSOR instance, stored as an entry in the self.sensors dictionary by name
             self.sensors[linkName] = SENSOR(linkName)
-            #print(linkName)
     
     def Sense(self, t):
         for sensor in self.sensors:
@@ -46,10 +45,22 @@ class ROBOT:
 
                 motor = self.motors[jointName]
                 motor.Set_Value(desiredAngle, robot, self.robotId)
-
-                # print(neuronName, jointName, desiredAngle)
         
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
+        #self.nn.Print()
+
+    def Get_Fitness(self):
+        stateOfLinkZero = p.getLinkState(self.robotId, 0)
+            # first arg is the unique ID of a body in the simulation (return value of loadURDF).
+            # second arg is the link we want -- 0  means the first link
+
+        positionOfLinkZero = stateOfLinkZero[0]
+
+        xCoordinateOfLinkZero = positionOfLinkZero[0]
+
+        # write xcoord to fitness.txt
+        f = open('fitness.txt', 'w')
+        f.write(str(xCoordinateOfLinkZero))
+        f.close()
 

@@ -60,7 +60,6 @@ def Generate_Brain():
             w = random.uniform(-1, 1)
             pyrosim.Send_Synapse( sourceNeuronName = i , targetNeuronName = j , weight = w )
 
-
     pyrosim.End()
 
 CreateWorld()
