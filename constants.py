@@ -14,4 +14,6 @@ amplitude = pi_four
 frequency = 25
 offset = 0
 
-numberOfGenerations = 15
+numberOfGenerations = 10
+
+populationSize = 10

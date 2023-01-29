@@ -9,9 +9,10 @@ import constants as c
 import time as time
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
+        self.directOrGUI = directOrGUI
         # p.DIRECT gives "blind mode", p.GUI shows the animation
-        if directOrGUI == "DIRECT":
+        if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT) 
         else:
             self.physicsClient = p.connect(p.GUI) 
@@ -22,7 +23,7 @@ class SIMULATION:
         p.setGravity(0, 0, -9.8)
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
     def run(self):
         for i in range(c.num_iterations):
@@ -33,8 +34,9 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act(i, self.robot)
 
-            # sleep() suspends execution for the given number of seconds
-            time.sleep(c.time_step)
+            if self.directOrGUI == 'GUI':
+                # sleep() suspends execution for the given number of seconds
+                time.sleep(c.time_step)
 
             #print(i)
 
