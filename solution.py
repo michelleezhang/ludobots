@@ -8,9 +8,9 @@ import constants as c
 class SOLUTION:
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
-        self.weights = numpy.array(
-            [[numpy.random.rand() for i in range(c.numMotorNeurons)] for j in range(c.numSensorNeurons)]
-        )
+        self.weights = numpy.array([
+                numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) * 2 - 1 for j in range(c.numSensorNeurons)
+        ])
         self.weights = (self.weights * 2) - 1
     
     def Evaluate(self, directOrGUI):
@@ -104,7 +104,7 @@ class SOLUTION:
     def Mutate(self):
         randomRow = random.randint(0, c.numSensorNeurons - 1)
         randomColumn = random.randint(0, c.numMotorNeurons - 1)
-        self.weights[randomRow][randomColumn] = random.random() * 2 - 1
+        self.weights[randomRow][randomColumn] = random.random() # * 2 - 1
 
     def Set_ID(self, id):
         self.myID = id

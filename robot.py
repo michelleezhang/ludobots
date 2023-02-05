@@ -56,17 +56,13 @@ class ROBOT:
         #self.nn.Print()
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robotId, 0)
-            # first arg is the unique ID of a body in the simulation (return value of loadURDF).
-            # second arg is the link we want -- 0  means the first link
-
-        positionOfLinkZero = stateOfLinkZero[0]
-
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
 
         # write xcoord to fitness.txt
         f = open('tmp' + str(self.solutionID) + '.txt', 'w')
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(xPosition))
         f.close()
         os.system('mv tmp' + str(self.solutionID) + '.txt fitness' + str(self.solutionID) + '.txt') 
         

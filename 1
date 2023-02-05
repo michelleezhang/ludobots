@@ -1,4 +1,4 @@
-pybullet build time: Jan 28 2023 14:34:45
+pybullet build time: Jan 10 2023 15:19:35
 Version = 4.1 INTEL-18.7.4
 Vendor = Intel Inc.
 Renderer = Intel(R) Iris(TM) Plus Graphics 650
@@ -10,6 +10,22 @@ MotionThreadFunc thread started
 b3Printf: b3Warning[examples/Importers/ImportURDFDemo/BulletUrdfImporter.cpp,126]:
 
 b3Printf: expected a world element, continuing without it.
+Traceback (most recent call last):
+  File "/Users/michellezhang/Downloads/ludobots/simulate.py", line 10, in <module>
+    simulation.run()
+  File "/Users/michellezhang/Downloads/ludobots/simulation.py", line 33, in run
+    self.robot.Sense(i)
+  File "/Users/michellezhang/Downloads/ludobots/robot.py", line 37, in Sense
+    self.sensors[sensor].Get_Value(t)
+  File "/Users/michellezhang/Downloads/ludobots/sensor.py", line 13, in Get_Value
+    self.values[t] = pyrosim.Get_Touch_Sensor_Value_For_Link(self.linkName)
+  File "/Users/michellezhang/Downloads/ludobots/pyrosim/pyrosim.py", line 53, in Get_Touch_Sensor_Value_For_Link
+    for pt in pts:
+TypeError: 'NoneType' object is not iterable
+Exception ignored in: <function SIMULATION.__del__ at 0x10a41f910>
+Traceback (most recent call last):
+  File "/Users/michellezhang/Downloads/ludobots/simulation.py", line 44, in __del__
+pybullet.error: Not connected to physics server.
 numActiveThreads = 0
 stopping threads
 destroy semaphore
