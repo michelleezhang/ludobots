@@ -41,8 +41,12 @@ class PARALLEL_HILL_CLIMBER:
             self.children[i].Mutate()
 
     def Select(self):
+        # for i in range(len(self.parents)):
+        #     if self.parents[i].fitness > self.children[i].fitness:
+        #         self.parents[i] = self.children[i]
+
         for i in range(len(self.parents)):
-            if self.parents[i].fitness > self.children[i].fitness:
+            if self.parents[i].fitness < self.children[i].fitness:
                 self.parents[i] = self.children[i]
         
     def Print(self):
@@ -52,18 +56,23 @@ class PARALLEL_HILL_CLIMBER:
         print('\n')
 
     def Show_Best(self):
-        min_fitness = self.parents[0].fitness
+        # min_fitness = self.parents[0].fitness
+        # for i in range(len(self.parents)):
+        #     min_fitness = min(self.parents[i].fitness, min_fitness)
+        
+        # for i in range(len(self.parents)):
+        #     if self.parents[i].fitness == min_fitness:
+        #         self.parents[i].Start_Simulation('GUI')
+        
+        max_fitness = self.parents[0].fitness
         for i in range(len(self.parents)):
-            min_fitness = min(self.parents[i].fitness, min_fitness)
+            max_fitness = max(self.parents[i].fitness, max_fitness)
         
         for i in range(len(self.parents)):
-            if self.parents[i].fitness == min_fitness:
+            if self.parents[i].fitness == max_fitness:
                 self.parents[i].Start_Simulation('GUI')
 
-                # NOTE: reddit said we didn't need to use Wait_For_Sim_To_End... but
-                # it means the min fitness file will be left over and the file is never closed
 
-        # self.parent.Evaluate('GUI')
     
     def Evaluate(self, solutions):
         for i in range(len(self.parents)):
