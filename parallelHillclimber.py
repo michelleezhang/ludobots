@@ -45,6 +45,7 @@ class PARALLEL_HILL_CLIMBER:
         #     if self.parents[i].fitness > self.children[i].fitness:
         #         self.parents[i] = self.children[i]
 
+        #jumping
         for i in range(len(self.parents)):
             if self.parents[i].fitness < self.children[i].fitness:
                 self.parents[i] = self.children[i]
@@ -64,6 +65,7 @@ class PARALLEL_HILL_CLIMBER:
         #     if self.parents[i].fitness == min_fitness:
         #         self.parents[i].Start_Simulation('GUI')
         
+        # jumping
         max_fitness = self.parents[0].fitness
         for i in range(len(self.parents)):
             max_fitness = max(self.parents[i].fitness, max_fitness)
