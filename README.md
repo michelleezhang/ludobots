@@ -1,6 +1,6 @@
 # Ludobots 
 
-See "FinalProject" branch for Assignment 5.
+See "FinalProject" branch for Assignment 5. Run "search.py" to run.
 
 - Created a multi-legged creature with moving "head" parts.
 - Added a platform to the world and changed the z-values for the creature to place it onto the platform. 
