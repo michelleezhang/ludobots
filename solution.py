@@ -9,7 +9,7 @@ class SOLUTION:
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
         self.weights = numpy.array([
-                numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) * 2 - 1 for j in range(c.numSensorNeurons)
+                numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
         ])
         self.weights = (self.weights * 2) - 1
     
@@ -22,6 +22,7 @@ class SOLUTION:
     def Wait_For_Simulation_To_End(self):
         while not os.path.exists('fitness' + str(self.myID) + '.txt'):
             time.sleep(0.01)
+        
         fitnessFile = open('fitness' + str(self.myID) + '.txt', 'r')
         self.fitness = float(fitnessFile.read())
         fitnessFile.close()
@@ -166,7 +167,7 @@ class SOLUTION:
     def Mutate(self):
         randomRow = random.randint(0, c.numSensorNeurons - 1)
         randomColumn = random.randint(0, c.numMotorNeurons - 1)
-        self.weights[randomRow][randomColumn] = random.random() # * 2 - 1
+        self.weights[randomRow, randomColumn] = random.random()  * 2 - 1
 
     def Set_ID(self, id):
         self.myID = id

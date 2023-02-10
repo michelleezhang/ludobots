@@ -9,8 +9,8 @@ class PARALLEL_HILL_CLIMBER:
         os.system('rm fitness*.txt')
 
         self.parents = {}
-
         self.nextAvailableID = 0
+
         for i in range(c.populationSize):
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
@@ -74,8 +74,6 @@ class PARALLEL_HILL_CLIMBER:
             if self.parents[i].fitness == max_fitness:
                 self.parents[i].Start_Simulation('GUI')
 
-
-    
     def Evaluate(self, solutions):
         for i in range(len(self.parents)):
             solutions[i].Start_Simulation('DIRECT')

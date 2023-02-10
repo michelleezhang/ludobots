@@ -1,18 +1,17 @@
 import pybullet as p
-import pybullet_data
 import pyrosim.pyrosim as pyrosim
 import os
 
 from sensor import SENSOR
 from motor import MOTOR
 import constants as c
-
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 
 class ROBOT:
     def __init__(self, solutionID):
         self.solutionID = solutionID
         self.robotId = p.loadURDF("body.urdf")
+
         pyrosim.Prepare_To_Simulate(self.robotId)
 
         self.Prepare_To_Sense()
@@ -59,11 +58,11 @@ class ROBOT:
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
        # xPosition = basePosition[0]
-        xPosition = basePosition[2]
+        zPosition = basePosition[2]
 
         # write xcoord to fitness.txt
         f = open('tmp' + str(self.solutionID) + '.txt', 'w')
-        f.write(str(xPosition))
+        f.write(str(zPosition))
         f.close()
         os.system('mv tmp' + str(self.solutionID) + '.txt fitness' + str(self.solutionID) + '.txt') 
         

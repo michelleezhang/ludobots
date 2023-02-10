@@ -1,7 +1,6 @@
 import numpy as numpy
 import constants as c
 import pybullet as p
-import pybullet_data
 import pyrosim.pyrosim as pyrosim
 
 class MOTOR:
@@ -14,5 +13,5 @@ class MOTOR:
             bodyIndex = id,
             jointName = self.jointName,
             controlMode = p.POSITION_CONTROL,
-            targetPosition = desiredAngle, #self.motorValues[t], 
+            targetPosition = desiredAngle,
             maxForce = c.max_force)
