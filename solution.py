@@ -81,12 +81,9 @@ class SOLUTION:
             if sensor_boolean:
                 self.linkNames.append(child_name)
                 self.jointNames.append(parent_name + "_" + child_name)
-                print('Link : ', self.linkNames, ' an jonts ', self.jointNames)
 
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
         
-            # random sensor placement along the chain
-
         pyrosim.End()
 
 
@@ -108,27 +105,7 @@ class SOLUTION:
         # generate a synapse
         for currentRow in range(len(self.linkNames)):        
             for currentColumn in range(len(self.jointNames)):
-                pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn + len(self.linkNames), weight = 1.5)
-
-
-
-        # linkNames = ['Link1', 'Link2'
-        #             ] 
-
-        # jointNames = ['Link0_Link1', 'Link1_Link2'
-        #             ] 
-
-        # sensorcount = 0
-        # while sensorcount < len(linkNames):
-        #     pyrosim.Send_Sensor_Neuron(name = sensorcount, linkName = linkNames[sensorcount])
-        #     sensorcount += 1
-        
-        # i =  0
-        # motorcount = sensorcount + 1
-        # while i < len(jointNames):
-        #     pyrosim.Send_Motor_Neuron(name = motorcount, jointName = jointNames[i])
-        #     motorcount += 1
-        #     i += 1
+                pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn + len(self.linkNames), weight = 1.0)
 
         # # generate a synapse
         # for currentRow in range(c.numSensorNeurons):        
