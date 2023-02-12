@@ -8,10 +8,14 @@ import constants as c
 class SOLUTION:
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
-        self.weights = numpy.array([
-                numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
-        ])
-        self.weights = (self.weights * 2) - 1
+
+        self.linkNames = []
+        self.jointNames = []
+
+        #self.weights = numpy.array([
+        #         numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
+        # ])
+        # self.weights = (self.weights * 2) - 1
     
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
@@ -34,24 +38,27 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Body(self):
+        self.linkNames = []
+        self.jointNames = []
+
         pyrosim.Start_URDF("body.urdf")
 
         # first link and first joint are absolute
         # after that, relative to prev joint 
 
         # generate all z positions randomly in a list
-
-        num_links = random.randint(2, 9)
-        linksize_z = numpy.array([random.uniform(0.1, 2) for j in range(num_links + 1)])
+        num_links = random.randint(3, 9)
+        linksize_z = numpy.array([random.uniform(0.5, 1.5) for j in range(num_links + 1)])
 
         # create root cube
-        prev_linksize_x = random.uniform(0.1, 2)
-        prev_linksize_y = random.uniform(0.1, 2)
+        prev_linksize_x = random.uniform(0.5, 1.5)
+        prev_linksize_y = random.uniform(0.5, 1.5)
+
         pyrosim.Send_Cube(name = "Link0", pos = [0, 0, linksize_z[0] / 2], size = [prev_linksize_x, prev_linksize_y, linksize_z[0]], sensor_boolean=False)
 
-        for i in range(1, num_links):  # was 3
-            linksize_x = random.uniform(0.1, 2)
-            linksize_y = random.uniform(0.1, 2)
+        for i in range(1, num_links):  
+            linksize_x = random.uniform(0.5, 1.5)
+            linksize_y = random.uniform(0.5, 1.5)
 
             parent_name = "Link" +  str(i - 1)
             child_name = "Link" +  str(i)
@@ -65,31 +72,51 @@ class SOLUTION:
             
             prev_linksize_y = linksize_y
 
-            # the way i set this up
-            # is it sends the previous joint, and then the next cube
+            # sends the previous joint, and then the next cube
             # e.g. joint beweeen 1 and 2, then cube 2
             pyrosim.Send_Joint(name = parent_name + "_" + child_name, parent = parent_name, child = child_name, type = "revolute", position = [0, jointposn_y, jointposn_z], jointAxis = "1 0 0")
             
-            pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=False)
+            sensor_boolean = bool(random.getrandbits(1))
+
+            if sensor_boolean:
+                self.linkNames.append(child_name)
+                self.jointNames.append(parent_name + "_" + child_name)
+                print('Link : ', self.linkNames, ' an jonts ', self.jointNames)
+
+            pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
         
-            # if sensor, green, else, blue
             # random sensor placement along the chain
-    
+
         pyrosim.End()
 
 
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
 
+        sensorcount = 0 
+        while sensorcount < len(self.linkNames):
+            pyrosim.Send_Sensor_Neuron(name = sensorcount, linkName = self.linkNames[sensorcount])
+            sensorcount += 1
+        
+        i =  0 
+        motorcount = sensorcount + 1
+        while i < len(self.jointNames):
+            pyrosim.Send_Motor_Neuron(name = motorcount, jointName = self.jointNames[i])
+            motorcount += 1
+            i += 1
+
+        # generate a synapse
+        for currentRow in range(len(self.linkNames)):        
+            for currentColumn in range(len(self.jointNames)):
+                pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn + len(self.linkNames), weight = 1.5)
+
+
+
         # linkNames = ['Link1', 'Link2'
         #             ] 
 
         # jointNames = ['Link0_Link1', 'Link1_Link2'
         #             ] 
-
-
-        # linkNames = []
-        # jointNames = []
 
         # sensorcount = 0
         # while sensorcount < len(linkNames):
@@ -111,9 +138,10 @@ class SOLUTION:
         pyrosim.End()
     
     def Mutate(self):
-        randomRow = random.randint(0, c.numSensorNeurons - 1)
-        randomColumn = random.randint(0, c.numMotorNeurons - 1)
-        self.weights[randomRow, randomColumn] = random.random()  * 2 - 1
+        pass
+        # randomRow = random.randint(0, c.numSensorNeurons - 1)
+        # randomColumn = random.randint(0, c.numMotorNeurons - 1)
+        #self.weights[randomRow, randomColumn] = random.random()  * 2 - 1
 
     def Set_ID(self, id):
         self.myID = id
