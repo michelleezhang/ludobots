@@ -12,6 +12,7 @@ class MATERIAL:
 
         self.string3 = '</material>'
 
+
     def Save(self,f):
 
         Save_Whitespace(self.depth,f)
