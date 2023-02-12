@@ -47,7 +47,7 @@ class SOLUTION:
         # create root cube
         prev_linksize_x = random.uniform(0.1, 2)
         prev_linksize_y = random.uniform(0.1, 2)
-        pyrosim.Send_Cube(name = "Link0", pos = [0, 0, linksize_z[0] / 2], size = [prev_linksize_x, prev_linksize_y, linksize_z[0]])
+        pyrosim.Send_Cube(name = "Link0", pos = [0, 0, linksize_z[0] / 2], size = [prev_linksize_x, prev_linksize_y, linksize_z[0]], sensor_boolean=False)
 
         for i in range(1, num_links):  # was 3
             linksize_x = random.uniform(0.1, 2)
@@ -70,7 +70,7 @@ class SOLUTION:
             # e.g. joint beweeen 1 and 2, then cube 2
             pyrosim.Send_Joint(name = parent_name + "_" + child_name, parent = parent_name, child = child_name, type = "revolute", position = [0, jointposn_y, jointposn_z], jointAxis = "1 0 0")
             
-            pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]])
+            pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=False)
         
             # if sensor, green, else, blue
             # random sensor placement along the chain
