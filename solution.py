@@ -131,7 +131,7 @@ class SOLUTION:
             
 
 
-            num_minx_links = random.randint(0, 2)
+            num_minx_links = random.randint(0, 3)
 
             for m in range(num_minx_links):
                 if m == 0: # first branch joint
@@ -171,6 +171,10 @@ class SOLUTION:
                                   pos = [-0.5 * minx_linksize_x, 0, 0], 
                                   size = [minx_linksize_x, min(minx_linksize_y, minx_y_bound), minx_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
                                   sensor_boolean=sensor_boolean) 
+                
+
+
+
 
 
             num_z_links = random.randint(0, 3)
@@ -178,14 +182,15 @@ class SOLUTION:
             for k in range(num_z_links):
                 if k == 0: # first branch joint
                     parentz_name = child_name
-                    z_joint_zposn = linksize_z / 2 
-                    z_joint_xposn = linksize_x / 2 
+                    z_joint_zposn = 3 * linksize_z #/ 2
+                    z_joint_yposn = -0.5 * linksize_y
+                    z_joint_xposn = 0 #0.5 * linksize_x 
                     z_y_bound = linksize_y
                     z_x_bound = linksize_x
-
                 else:
                     parentz_name = child_name + "ZLink" + str(k - 1)
                     z_joint_zposn = z_prev_z
+                    z_joint_yposn = 0
                     z_joint_xposn = 0
                     z_y_bound = z_prev_y
                     z_x_bound = z_prev_x
@@ -195,7 +200,7 @@ class SOLUTION:
                 pyrosim.Send_Joint(name = parentz_name + "_" + childz_name, 
                                 parent = parentz_name, child = childz_name, 
                                 type = "revolute", 
-                                position = [z_joint_xposn, 0, z_joint_zposn], 
+                                position = [z_joint_xposn, z_joint_yposn, z_joint_zposn], 
                                 jointAxis = "0 0 1")
 
                 sensor_boolean = bool(random.getrandbits(1))
@@ -212,11 +217,9 @@ class SOLUTION:
                 z_prev_z = z_linksize_z
 
                 pyrosim.Send_Cube(name = childz_name, 
-                                  pos = [0, 0, z_linksize_z / 2], #/ 2], 
-                                  size = [min(z_x_bound, z_linksize_x), min(z_y_bound, z_linksize_y), z_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
+                                  pos = [0, 0, z_linksize_z / 2], 
+                                  size = [min(z_x_bound, z_linksize_x), min(z_y_bound, z_linksize_y), z_linksize_z], 
                                   sensor_boolean = sensor_boolean)
-                
-
 
             
 
