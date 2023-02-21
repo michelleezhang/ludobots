@@ -41,14 +41,14 @@ class PARALLEL_HILL_CLIMBER:
             self.children[i].Mutate()
 
     def Select(self):
-        # for i in range(len(self.parents)):
-        #     if self.parents[i].fitness > self.children[i].fitness:
-        #         self.parents[i] = self.children[i]
-
-        #jumping
         for i in range(len(self.parents)):
-            if self.parents[i].fitness < self.children[i].fitness:
+            if self.parents[i].fitness > self.children[i].fitness:
                 self.parents[i] = self.children[i]
+
+        # #jumping
+        # for i in range(len(self.parents)):
+        #     if self.parents[i].fitness < self.children[i].fitness:
+        #         self.parents[i] = self.children[i]
         
     def Print(self):
         print('\n')
@@ -57,22 +57,22 @@ class PARALLEL_HILL_CLIMBER:
         print('\n')
 
     def Show_Best(self):
-        # min_fitness = self.parents[0].fitness
-        # for i in range(len(self.parents)):
-        #     min_fitness = min(self.parents[i].fitness, min_fitness)
-        
-        # for i in range(len(self.parents)):
-        #     if self.parents[i].fitness == min_fitness:
-        #         self.parents[i].Start_Simulation('GUI')
-        
-        # jumping
-        max_fitness = self.parents[0].fitness
+        min_fitness = self.parents[0].fitness
         for i in range(len(self.parents)):
-            max_fitness = max(self.parents[i].fitness, max_fitness)
+            min_fitness = min(self.parents[i].fitness, min_fitness)
         
         for i in range(len(self.parents)):
-            if self.parents[i].fitness == max_fitness:
+            if self.parents[i].fitness == min_fitness:
                 self.parents[i].Start_Simulation('GUI')
+        
+        # # jumping
+        # max_fitness = self.parents[0].fitness
+        # for i in range(len(self.parents)):
+        #     max_fitness = max(self.parents[i].fitness, max_fitness)
+        
+        # for i in range(len(self.parents)):
+        #     if self.parents[i].fitness == max_fitness:
+        #         self.parents[i].Start_Simulation('GUI')
 
     def Evaluate(self, solutions):
         for i in range(len(self.parents)):

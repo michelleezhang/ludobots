@@ -87,7 +87,7 @@ class SOLUTION:
 
 
             # +x direction branches
-            num_x_links = random.randint(0, 2)
+            num_x_links = random.randint(0, 3)
 
             for j in range(num_x_links):
                 if j == 0: # first branch joint
@@ -130,7 +130,7 @@ class SOLUTION:
             
 
             # -x direction branches
-            num_minx_links = random.randint(0, 2)
+            num_minx_links = random.randint(0, 3)
 
             for m in range(num_minx_links):
                 if m == 0: # first branch joint
@@ -171,13 +171,16 @@ class SOLUTION:
                                   size = [minx_linksize_x, min(minx_linksize_y, minx_y_bound), minx_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
                                   sensor_boolean=sensor_boolean) 
         
+
+
+
             # z direction branches
             num_z_links = random.randint(0, 2)
 
             for k in range(num_z_links):
                 if k == 0: # first branch joint
                     parentz_name = child_name
-                    z_joint_zposn = linksize_z / 2 #/ 2
+                    z_joint_zposn = linksize_z / 2
                     z_joint_yposn = -0.5 * linksize_y
                     z_joint_xposn = 0 #0.5 * linksize_x 
                     z_y_bound = linksize_y
@@ -215,8 +218,6 @@ class SOLUTION:
                                   pos = [0, 0, z_linksize_z / 2], 
                                   size = [min(z_x_bound, z_linksize_x), min(z_y_bound, z_linksize_y), z_linksize_z], 
                                   sensor_boolean = sensor_boolean)
-
-        
                 
         pyrosim.End()
 
