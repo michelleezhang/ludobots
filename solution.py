@@ -177,7 +177,7 @@ class SOLUTION:
             for k in range(num_z_links):
                 if k == 0: # first branch joint
                     parentz_name = child_name
-                    z_joint_zposn = 3 * linksize_z #/ 2
+                    z_joint_zposn = linksize_z / 2 #/ 2
                     z_joint_yposn = -0.5 * linksize_y
                     z_joint_xposn = 0 #0.5 * linksize_x 
                     z_y_bound = linksize_y

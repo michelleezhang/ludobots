@@ -2,7 +2,7 @@ import numpy as numpy
 pi_four = numpy.pi / 4.0
 
 num_iterations = 1000
-time_step = 1/1000 #60
+time_step = 1/300 #60
 
 max_force = 200
 amplitude = pi_four
