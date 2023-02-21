@@ -83,12 +83,11 @@ class SOLUTION:
                 self.linkNames.append(child_name)
                 self.jointNames.append(parent_name + "_" + child_name)
 
-            # tbh you can do +-x and then z
-
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
 
 
-            num_x_links = random.randint(0, 3)
+            # +x direction branches
+            num_x_links = random.randint(0, 2)
 
             for j in range(num_x_links):
                 if j == 0: # first branch joint
@@ -130,8 +129,8 @@ class SOLUTION:
                                   sensor_boolean=sensor_boolean) 
             
 
-
-            num_minx_links = random.randint(0, 3)
+            # -x direction branches
+            num_minx_links = random.randint(0, 2)
 
             for m in range(num_minx_links):
                 if m == 0: # first branch joint
@@ -171,13 +170,9 @@ class SOLUTION:
                                   pos = [-0.5 * minx_linksize_x, 0, 0], 
                                   size = [minx_linksize_x, min(minx_linksize_y, minx_y_bound), minx_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
                                   sensor_boolean=sensor_boolean) 
-                
-
-
-
-
-
-            num_z_links = random.randint(0, 3)
+        
+            # z direction branches
+            num_z_links = random.randint(0, 2)
 
             for k in range(num_z_links):
                 if k == 0: # first branch joint
@@ -221,8 +216,7 @@ class SOLUTION:
                                   size = [min(z_x_bound, z_linksize_x), min(z_y_bound, z_linksize_y), z_linksize_z], 
                                   sensor_boolean = sensor_boolean)
 
-            
-
+        
                 
         pyrosim.End()
 
