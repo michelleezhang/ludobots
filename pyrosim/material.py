@@ -14,10 +14,10 @@ class MATERIAL:
 
         if sensor_boolean:
             color_name = "Green"
-            color_rgba = ["0.0", "1.0", "0.0"]
+            color_rgba = ["0.25", "0.76", "0.50"]
         else:
             color_name = "Blue"
-            color_rgba = ["0.0", "0.0", "1.0"]
+            color_rgba = ["0.01", "0.54", "1.0"]
 
         self.string1 = '<material name="' + str(color_name) + '">'
         self.string2 = '    <color rgba="' + color_rgba[0] + ' ' + color_rgba[1] + ' ' + color_rgba[2] + ' 1.0"/>'
