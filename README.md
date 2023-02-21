@@ -18,7 +18,7 @@ The diagram below shows an example of branching in the x direction.
 </p>
 The diagram below shows an example of branching in the z direction.
 <p align="center">
-    <img src="./x-graph.jpg" width="30%" height="30%"/>
+    <img src="./z-graph.jpg" width="30%" height="30%"/>
 </p>
 In both of the diagrams above, the green arrows show the direction of growth of the branch links (colored blue) at each spine link (colored black).
 
