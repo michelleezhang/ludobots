@@ -62,53 +62,33 @@ class SOLUTION:
         def create_branches(direction, num_links, linksize_x, linksize_y, linksize_z):
                 if direction == "+x":
                     link_name_string = "XLink"
-                    joint_xi = linksize_x / 2
-                    joint_yi = linksize_y / 2
-                    joint_zi = 0
+                    joint_posn = [linksize_x / 2, linksize_y / 2, 0]
                     joint_axis = "1 0 0"   
                 elif direction == "-x":
                     link_name_string = "MinXLink"
-                    joint_xi = -0.5 * linksize_x
-                    joint_yi = linksize_y / 2
-                    joint_zi = 0
+                    joint_posn = [-0.5 * linksize_x, linksize_y / 2, 0]
                     joint_axis = "1 0 0"
                 elif direction == "+z":
                     link_name_string = "ZLink"
-                    joint_xi = 0
-                    joint_yi = linksize_y / 2
-                    joint_zi = linksize_z / 2
+                    joint_posn = [0, linksize_y / 2, linksize_z / 2]
                     joint_axis = "0 0 1"
                     
                 for j in range(num_links):
                     if j == 0: # first branch joint
                         parentx_name = child_name
-                        joint_xposn = joint_xi
-                        joint_yposn = joint_yi
-                        joint_zposn = joint_zi
 
-                        # x_bound = linksize_x
                         y_bound = linksize_y # for + and -x
                         x_bound = linksize_x
 
                     else:
                         if direction == "+x":
-                            joint_xf = prev_x # size of last branch cube
-                            joint_yf = 0
-                            joint_zf = 0
+                            joint_posn = [prev_x, 0, 0]
                         elif direction == "-x":
-                            joint_xf = -1 * prev_x # size of last branch cube
-                            joint_yf = 0 
-                            joint_zf = 0
+                            joint_posn = [-1 * prev_x, 0, 0]
                         elif direction == "+z":
-                            joint_xf = 0 
-                            joint_yf = 0 
-                            joint_zf = prev_z
+                            joint_posn = [0, 0, prev_z]
 
                         parentx_name = child_name + link_name_string + str(j - 1)
-
-                        joint_xposn = joint_xf
-                        joint_yposn = joint_yf
-                        joint_zposn = joint_zf
 
                         y_bound = prev_y
                         x_bound = prev_x
@@ -118,7 +98,7 @@ class SOLUTION:
                     pyrosim.Send_Joint(name = parentx_name + "_" + childx_name, 
                                     parent = parentx_name, child = childx_name, 
                                     type = "revolute", 
-                                    position = [joint_xposn, joint_yposn, joint_zposn], 
+                                    position = [joint_posn[0], joint_posn[1], joint_posn[2]], 
                                     jointAxis = joint_axis)
 
                     sensor_boolean = bool(random.getrandbits(1))
@@ -127,7 +107,6 @@ class SOLUTION:
                         self.linkNames.append(childx_name)
                         self.jointNames.append(parentx_name + "_" + childx_name)
 
-                    
                     linksize_x = random.uniform(0.5, 1)
                     linksize_y = random.uniform(0.5, 1)
                     linksize_z = random.uniform(0.5, 1)
@@ -137,28 +116,21 @@ class SOLUTION:
                     prev_z = linksize_z
 
                     if direction == "+x":
-                        link_xposn = linksize_x / 2
-                        link_yposn = 0
-                        link_zposn = 0
+                        link_posn = [linksize_x / 2, 0, 0]
                         linksize_y = min(linksize_y, y_bound)
                     elif direction == "-x":
-                        link_xposn = -0.5 * linksize_x 
-                        link_yposn = 0
-                        link_zposn = 0
+                        link_posn = [-0.5 * linksize_x, 0, 0]
                         linksize_y = min(linksize_y, y_bound)
                     elif direction == "+z":
-                        link_xposn = 0
-                        link_yposn = 0
-                        link_zposn = linksize_z / 2
+                        link_posn = [0, 0, linksize_z / 2]
                         linksize_x = min(linksize_x, x_bound)
                         linksize_y = min(linksize_y, y_bound)
 
 
                     pyrosim.Send_Cube(name = childx_name, 
-                                  pos = [link_xposn, link_yposn, link_zposn], 
+                                  pos = [link_posn[0], link_posn[1], link_posn[2]], 
                                   size = [linksize_x, linksize_y, linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
                                   sensor_boolean=sensor_boolean)
-                    
 
 
         for i in range(1, num_links):  
@@ -189,14 +161,9 @@ class SOLUTION:
 
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
  
-                
-            # +x direction branches
+
             num_x_links = random.randint(0, 3)
-
-            # -x direction branches
             num_minx_links = random.randint(0, 3)
-
-            # +z direction branches
             num_z_links = random.randint(0, 2)
             
             create_branches("+x", num_x_links, linksize_x, linksize_y, linksize_z[i])
