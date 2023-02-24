@@ -57,6 +57,110 @@ class SOLUTION:
         pyrosim.Send_Cube(name = "Link0", pos = [0, 0, linksize_z[0] / 2], size = [prev_linksize_x, prev_linksize_y, linksize_z[0]], sensor_boolean=False)
 
 
+
+
+        def create_branches(direction, num_links, linksize_x, linksize_y, linksize_z):
+                if direction == "+x":
+                    link_name_string = "XLink"
+                    joint_xi = linksize_x / 2
+                    joint_yi = linksize_y / 2
+                    joint_zi = 0
+                    joint_axis = "1 0 0"   
+                elif direction == "-x":
+                    link_name_string = "MinXLink"
+                    joint_xi = -0.5 * linksize_x
+                    joint_yi = linksize_y / 2
+                    joint_zi = 0
+                    joint_axis = "1 0 0"
+                elif direction == "+z":
+                    link_name_string = "ZLink"
+                    joint_xi = 0
+                    joint_yi = linksize_y / 2
+                    joint_zi = linksize_z / 2
+                    joint_axis = "0 0 1"
+                    
+                for j in range(num_links):
+                    if j == 0: # first branch joint
+                        parentx_name = child_name
+                        joint_xposn = joint_xi
+                        joint_yposn = joint_yi
+                        joint_zposn = joint_zi
+
+                        # x_bound = linksize_x
+                        y_bound = linksize_y # for + and -x
+                        x_bound = linksize_x
+
+                    else:
+                        if direction == "+x":
+                            joint_xf = prev_x # size of last branch cube
+                            joint_yf = 0
+                            joint_zf = 0
+                        elif direction == "-x":
+                            joint_xf = -1 * prev_x # size of last branch cube
+                            joint_yf = 0 
+                            joint_zf = 0
+                        elif direction == "+z":
+                            joint_xf = 0 
+                            joint_yf = 0 
+                            joint_zf = prev_z
+
+                        parentx_name = child_name + link_name_string + str(j - 1)
+
+                        joint_xposn = joint_xf
+                        joint_yposn = joint_yf
+                        joint_zposn = joint_zf
+
+                        y_bound = prev_y
+                        x_bound = prev_x
+
+                    childx_name = child_name + link_name_string + str(j)
+
+                    pyrosim.Send_Joint(name = parentx_name + "_" + childx_name, 
+                                    parent = parentx_name, child = childx_name, 
+                                    type = "revolute", 
+                                    position = [joint_xposn, joint_yposn, joint_zposn], 
+                                    jointAxis = joint_axis)
+
+                    sensor_boolean = bool(random.getrandbits(1))
+
+                    if sensor_boolean:
+                        self.linkNames.append(childx_name)
+                        self.jointNames.append(parentx_name + "_" + childx_name)
+
+                    
+                    linksize_x = random.uniform(0.5, 1)
+                    linksize_y = random.uniform(0.5, 1)
+                    linksize_z = random.uniform(0.5, 1)
+
+                    prev_x = linksize_x
+                    prev_y = linksize_y
+                    prev_z = linksize_z
+
+                    if direction == "+x":
+                        link_xposn = linksize_x / 2
+                        link_yposn = 0
+                        link_zposn = 0
+                        linksize_y = min(linksize_y, y_bound)
+                    elif direction == "-x":
+                        link_xposn = -0.5 * linksize_x 
+                        link_yposn = 0
+                        link_zposn = 0
+                        linksize_y = min(linksize_y, y_bound)
+                    elif direction == "+z":
+                        link_xposn = 0
+                        link_yposn = 0
+                        link_zposn = linksize_z / 2
+                        linksize_x = min(linksize_x, x_bound)
+                        linksize_y = min(linksize_y, y_bound)
+
+
+                    pyrosim.Send_Cube(name = childx_name, 
+                                  pos = [link_xposn, link_yposn, link_zposn], 
+                                  size = [linksize_x, linksize_y, linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
+                                  sensor_boolean=sensor_boolean)
+                    
+
+
         for i in range(1, num_links):  
             linksize_x = random.uniform(0.5, 1.5)
             linksize_y = random.uniform(0.5, 1.5)
@@ -84,137 +188,20 @@ class SOLUTION:
                 self.jointNames.append(parent_name + "_" + child_name)
 
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
-
+ 
+                
             # +x direction branches
             num_x_links = random.randint(0, 3)
-
-            for j in range(num_x_links):
-                if j == 0: # first branch joint
-                    parentx_name = child_name
-
-                    x_joint_xposn = linksize_x / 2
-                    x_joint_yposn = linksize_y / 2
-                    y_bound = linksize_y
-                else:
-                    parentx_name = child_name + "XLink" + str(j - 1)
-
-                    x_joint_xposn = x_prev_x # size of last branch cube
-                    x_joint_yposn = 0
-                    y_bound = x_prev_y
-
-                childx_name = child_name + "XLink" + str(j)
-
-                pyrosim.Send_Joint(name = parentx_name + "_" + childx_name, 
-                                parent = parentx_name, child = childx_name, 
-                                type = "revolute", 
-                                position = [x_joint_xposn, x_joint_yposn, 0], 
-                                jointAxis = "1 0 0")
-
-                sensor_boolean = bool(random.getrandbits(1))
-
-                if sensor_boolean:
-                    self.linkNames.append(childx_name)
-                    self.jointNames.append(parentx_name + "_" + childx_name)
-
-                x_linksize_x = random.uniform(0.5, 1)
-                x_linksize_y = random.uniform(0.5, 1)
-                x_linksize_z = random.uniform(0.5, 1)
-                x_prev_x = x_linksize_x
-                x_prev_y = x_linksize_y
-
-                pyrosim.Send_Cube(name = childx_name, 
-                                  pos = [x_linksize_x / 2, 0, 0], 
-                                  size = [x_linksize_x, min(x_linksize_y, y_bound), x_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
-                                  sensor_boolean=sensor_boolean) 
-            
 
             # -x direction branches
             num_minx_links = random.randint(0, 3)
 
-            for m in range(num_minx_links):
-                if m == 0: # first branch joint
-                    parentminx_name = child_name
-
-                    minx_joint_xposn = -0.5 * linksize_x
-                    minx_joint_yposn = linksize_y / 2
-                    minx_y_bound = linksize_y
-                else:
-                    parentminx_name = child_name + "MinXLink" + str(m - 1)
-
-                    minx_joint_xposn = -1 * minx_prev_x # size of last branch cube
-                    minx_joint_yposn = 0
-                    minx_y_bound = minx_prev_y
-
-                childminx_name = child_name + "MinXLink" + str(m)
-
-                pyrosim.Send_Joint(name = parentminx_name + "_" + childminx_name, 
-                                parent = parentminx_name, child = childminx_name, 
-                                type = "revolute", 
-                                position = [minx_joint_xposn, minx_joint_yposn, 0], 
-                                jointAxis = "1 0 0")
-
-                sensor_boolean = bool(random.getrandbits(1))
-
-                if sensor_boolean:
-                    self.linkNames.append(childminx_name)
-                    self.jointNames.append(parentminx_name + "_" + childminx_name)
-
-                minx_linksize_x = random.uniform(0.5, 1)
-                minx_linksize_y = random.uniform(0.5, 1)
-                minx_linksize_z = random.uniform(0.5, 1)
-                minx_prev_x = minx_linksize_x
-                minx_prev_y = minx_linksize_y
-
-                pyrosim.Send_Cube(name = childminx_name, 
-                                  pos = [-0.5 * minx_linksize_x, 0, 0], 
-                                  size = [minx_linksize_x, min(minx_linksize_y, minx_y_bound), minx_linksize_z], # if you don't want to bound, just do x_linksize_y for the y size
-                                  sensor_boolean=sensor_boolean) 
-        
-
-            # z direction branches
+            # +z direction branches
             num_z_links = random.randint(0, 2)
-
-            for k in range(num_z_links):
-                if k == 0: # first branch joint
-                    parentz_name = child_name
-                    z_joint_zposn = linksize_z[i] / 2 
-                    z_joint_yposn = 0.5 * linksize_y
-                    z_joint_xposn = 0
-                    z_y_bound = linksize_y
-                    z_x_bound = linksize_x
-                else:
-                    parentz_name = child_name + "ZLink" + str(k - 1)
-                    z_joint_zposn = z_prev_z
-                    z_joint_yposn = 0
-                    z_joint_xposn = 0
-                    z_y_bound = z_prev_y
-                    z_x_bound = z_prev_x
-                
-                childz_name = child_name + "ZLink" + str(k)
-
-                pyrosim.Send_Joint(name = parentz_name + "_" + childz_name, 
-                                parent = parentz_name, child = childz_name, 
-                                type = "revolute", 
-                                position = [z_joint_xposn, z_joint_yposn, z_joint_zposn], 
-                                jointAxis = "0 0 1")
-
-                sensor_boolean = bool(random.getrandbits(1))
-
-                if sensor_boolean:
-                    self.linkNames.append(childz_name)
-                    self.jointNames.append(parentz_name + "_" + childz_name)
-
-                z_linksize_x = random.uniform(0.5, 1)
-                z_linksize_y = random.uniform(0.5, 1)
-                z_linksize_z = random.uniform(0.5, 1)
-                z_prev_x = z_linksize_x
-                z_prev_y = z_linksize_y
-                z_prev_z = z_linksize_z
-
-                pyrosim.Send_Cube(name = childz_name, 
-                                  pos = [0, 0, z_linksize_z / 2], 
-                                  size = [min(z_x_bound, z_linksize_x), min(z_y_bound, z_linksize_y), z_linksize_z], 
-                                  sensor_boolean = sensor_boolean)
+            
+            create_branches("+x", num_x_links, linksize_x, linksize_y, linksize_z[i])
+            create_branches("-x", num_minx_links, linksize_x, linksize_y, linksize_z[i])
+            create_branches("+z", num_z_links, linksize_x, linksize_y, linksize_z[i])
                 
         pyrosim.End()
 
