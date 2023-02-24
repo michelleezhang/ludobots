@@ -85,7 +85,6 @@ class SOLUTION:
 
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
 
-
             # +x direction branches
             num_x_links = random.randint(0, 3)
 
@@ -172,17 +171,15 @@ class SOLUTION:
                                   sensor_boolean=sensor_boolean) 
         
 
-
-
             # z direction branches
             num_z_links = random.randint(0, 2)
 
             for k in range(num_z_links):
                 if k == 0: # first branch joint
                     parentz_name = child_name
-                    z_joint_zposn = linksize_z / 2
-                    z_joint_yposn = -0.5 * linksize_y
-                    z_joint_xposn = 0 #0.5 * linksize_x 
+                    z_joint_zposn = linksize_z[i] / 2 
+                    z_joint_yposn = 0.5 * linksize_y
+                    z_joint_xposn = 0
                     z_y_bound = linksize_y
                     z_x_bound = linksize_x
                 else:
