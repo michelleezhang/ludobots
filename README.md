@@ -30,6 +30,5 @@ Run search.py to generate a random kinematic chain.
 Python package requirements: random, numpy, pybullet
 
 # sources
-- Computer Science 396 (Artificial Life) course at Northwestern University
 - Ludobots MOOC on Reddit (https://www.reddit.com/r/ludobots/)
 - Evolving Virtual Creatures by Karl Sims (https://www.karlsims.com/papers/siggraph94.pdf)
