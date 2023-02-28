@@ -40,6 +40,7 @@ class SIMULATION:
                 time.sleep(c.time_step)
 
             #print(i)
+        
 
     def __del__(self):
         p.disconnect()

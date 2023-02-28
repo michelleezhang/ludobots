@@ -1,21 +1,16 @@
 import numpy as numpy
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
+import os
+from parallelHillclimber import PARALLEL_HILL_CLIMBER
+import constants as c
+import random 
 
-# backLegSensorValues = numpy.load('data/backLegSensorValues.npy')
-# print(backLegSensorValues)
-# matplotlib.pyplot.plot(backLegSensorValues, label='Back leg', linewidth=3)
+for i in range(5):
+    random.seed(i + 1) # picks one set of random numbers
+    phc = PARALLEL_HILL_CLIMBER()
+    fitnessArray = phc.Evolve()
+    plt.plot(fitnessArray, label = 'Seed ' + str(i + 1))
 
-# frontLegSensorValues = numpy.load('data/frontLegSensorValues.npy')
-# matplotlib.pyplot.plot(frontLegSensorValues, label='Front leg')
-
-targetAngles_back = numpy.load('data/targetAngles_back.npy')
-matplotlib.pyplot.plot(targetAngles_back, label="Back leg target angles")
-targetAngles_front = numpy.load('data/targetAngles_front.npy')
-matplotlib.pyplot.plot(targetAngles_front, label="Front leg target angles")
-
-matplotlib.pyplot.xlabel('Steps')
-matplotlib.pyplot.ylabel('Value in Radians')
-matplotlib.pyplot.axis('tight')
-
-matplotlib.pyplot.legend(loc='upper right')
-matplotlib.pyplot.show()
+plt.xlabel('Generation')
+plt.ylabel('Max fitness')
+plt.show()
