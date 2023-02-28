@@ -22,7 +22,8 @@ The diagram below shows an example of branching in the z direction.
 </p>
 In both of the diagrams above, the green arrows show the direction of growth of the branch links (colored blue) at each spine link (colored black).
 
-Evolution was done by mutating the randomly generated robots. The type of mutation made was randomly determined. The possible types of mutations were:
+
+Evolution was simulated by mutating the randomly generated robots at each generation. The type of mutation made was randomly determined. The possible types of mutations were:
 - The probability of more links in the x, y, or z directions was increased 
 - The probability of fewer links in the x, y, or z directions was increased
 - The probability of larger links was increased
