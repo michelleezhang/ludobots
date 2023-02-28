@@ -22,13 +22,26 @@ The diagram below shows an example of branching in the z direction.
 </p>
 In both of the diagrams above, the green arrows show the direction of growth of the branch links (colored blue) at each spine link (colored black).
 
+Evolution was done by mutating the randomly generated robots. The type of mutation made was randomly determined. The possible types of mutations were:
+- The probability of more links in the x, y, or z directions was increased 
+- The probability of fewer links in the x, y, or z directions was increased
+- The probability of larger links was increased
+- The probability of smaller links was increased
+- The weights of the synapses were randomly altered
+
+If a mutation in the parent led to an increase in fitness for the child, the child replaced the parent, thus keeping track of the maximum obtained fitness.
+
 
 # usage
 Run search.py to generate a random kinematic chain.
 >python3 search.py
+
+Run analyze.py to generate a fitness plot.
+>python3 analyze.py
 
 Python package requirements: random, numpy, pybullet
 
 # sources
 - Ludobots MOOC on Reddit (https://www.reddit.com/r/ludobots/)
 - Evolving Virtual Creatures by Karl Sims (https://www.karlsims.com/papers/siggraph94.pdf)
+- Project built on pyrosim (https://github.com/jbongard/pyrosim)
