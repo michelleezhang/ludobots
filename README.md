@@ -1,4 +1,8 @@
 # ludobots
+<p align="center">
+    <img src="./ludobots-final trailer - 4K.gif" width="50%" height="50%"/>
+</p>
+
 Video: https://youtu.be/uKB8FFeYaAg 
 
 # robot generation
