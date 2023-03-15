@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-seed = 6
+seed = 1
 
 pi_four = np.pi / 4.0
 
@@ -13,8 +13,8 @@ amplitude = pi_four
 frequency = 10
 offset = np.pi / 8.0
 
-numberOfGenerations = 12 #500
-populationSize = 2 # 10
+numberOfGenerations = 1 #500
+populationSize = 1 # 10
 
 # numSensorNeurons = 4 # number of things in linkNames (in solution.py)
 # numMotorNeurons = 2 # number of things in jointNames (in solution.py)

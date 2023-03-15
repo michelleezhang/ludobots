@@ -207,28 +207,28 @@ class SOLUTION:
             # bigger blocks
             self.minsize *= 1.2
             self.maxsize *= 1.5
-        elif check == 4:
+        elif check == 3:
             # more x
             self.num_branchlinks[1] += 1
             self.num_branchlinks[2] += 1
-        elif check == 5:
+        elif check == 4:
             # less x
             self.num_branchlinks[1] = max(0, self.num_branchlinks[1] - 1)
             self.num_branchlinks[2] = max(0, self.num_branchlinks[2] - 1)
             if self.num_branchlinks[1] == 0 and self.num_branchlinks[2] == 0:
                  self.minsize *= 0.7
-        elif check == 6:
+        elif check == 5:
             # more y
             self.num_branchlinks[0] += 1
-        elif check == 7:
+        elif check == 6:
             # less y
             self.num_branchlinks[0] = max(0, self.num_branchlinks[0] - 1)
             if self.num_branchlinks[0] == 0:
                  self.minsize *= 0.7
-        elif check == 8:
+        elif check == 7:
             # more z
             self.num_branchlinks[3] += 1
-        elif check == 9:
+        elif check == 8:
              # less z
              self.num_branchlinks[3] = max(0, self.num_branchlinks[3] - 1)
              if self.num_branchlinks[3] == 0:
