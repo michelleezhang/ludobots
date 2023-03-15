@@ -65,6 +65,8 @@ e.g. If you would like to run robot0 in the saved robots, run
 >python3 pickled.py 0
 To see the saved robot data, see the best_robots folder, which contains the body.urdf and brain.nndf of several of the best evolved robots.
 
+The number of generations and population size can be modified by editing the numberOfGenerations and populationSize variables respectively in the constants.py file
+
 Python package requirements: random, numpy, pybullet
 
 # sources
