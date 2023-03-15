@@ -1,7 +1,7 @@
-# ludobots: morphospace
+# ludobots
 Video: https://youtu.be/uKB8FFeYaAg 
 
-
+# robot generation
 This program generates a 3D creature (jointed, motorized, sensorized) with a random number of links (with random dimensions) and random sensor placement. Links with sensors are colored green, and links without sensors are colored blue.
 
 First, a "spine" chain is grown in the y-direction. A random number 'num_links' is generated to determine the number of links in the chain. A "base" link is generated first, positioned at (0, 0) in 2D space. From there, the remaining links (given randomized dimensions) are added to the chain. 
@@ -17,6 +17,7 @@ In both of the phenotype diagrams above, the green arrows show the direction of 
 
 Each time a new joint and link pair is generated, a random boolean value is also generated to decide whether or not that link will have a sensor. Sensor neurons are added only for the links for which this boolean is set to True. The link is colored green if the sensor boolean is True, and blue otherwise. Random values for the entire program were generated using the random module.
 
+# robot evolution
 
 Evolution was simulated by mutating the randomly generated robots at each generation. The type of mutation made was randomly determined. The possible types of mutations were:
 - The probability of more links in the x, y, or z directions was increased 
@@ -46,6 +47,12 @@ Run search.py to generate a random kinematic chain.
 
 Run analyze.py to generate a fitness plot.
 >python3 analyze.py
+
+Run pickled.py to see one of the saved robots.
+>python3 pickled.py <robot_number>
+e.g. If you would like to run robot0 in the saved robots, run
+>python3 pickled.py 0
+To see the saved robot data, see the best_robots folder, which contains the body.urdf and brain.nndf of several of the best evolved robots.
 
 Python package requirements: random, numpy, pybullet
 
