@@ -30,7 +30,7 @@ Evolution was simulated by mutating the randomly generated robots at each genera
 
 If a mutation in the parent led to an increase in fitness for the child, the child replaced the parent, thus keeping track of the maximum obtained fitness.
 
-Evolution used parallell hill climber
+Evolution used parallel hill climber, which runs a given number of generations with a given number of randomly generated parents per generation. At each generation, a mutation is made to the parent to produce a child. The fitness of the child is calculated, and if it is more fit than the parent, the child replaces the parent in the following generation. At the end of all of the generations, the robot with the best fitness overall is selected.
 <p align="center">
     <img src="./Computer Science 396_ Artificial Life-21.jpg" width="50%" height="50%"/>
 </p>
