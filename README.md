@@ -4,7 +4,7 @@ This project showcases the simulated evolution of 3D rigid robots.
     <img src="./ludobots-final trailer - 4K.gif" width="50%" height="50%"/>
 </p>
 
-Full Video: https://youtu.be/xpdqbzg-Br8 
+Full Video: https://youtu.be/WvRU43EQkz8 
 
 # robot generation
 Robots are composed of 3D blocks called "links" connected by joints, and have sensors that define how the robot moves. This program generates 3D jointed, motorized, and sensorized robots with a random number of links (with random dimensions) and random sensor placement. Links with sensors are colored green, and links without sensors are colored blue.
