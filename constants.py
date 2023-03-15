@@ -13,8 +13,8 @@ amplitude = pi_four
 frequency = 10
 offset = np.pi / 8.0
 
-numberOfGenerations = 1 #500
-populationSize = 1 # 10
+numberOfGenerations = 500
+populationSize = 10
 
 # numSensorNeurons = 4 # number of things in linkNames (in solution.py)
 # numMotorNeurons = 2 # number of things in jointNames (in solution.py)
