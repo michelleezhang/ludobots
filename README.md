@@ -1,4 +1,7 @@
 # ludobots: morphospace
+Video: https://youtu.be/uKB8FFeYaAg 
+
+
 This program generates a 3D creature (jointed, motorized, sensorized) with a random number of links (with random dimensions) and random sensor placement. Links with sensors are colored green, and links without sensors are colored blue.
 
 First, a "spine" chain is grown in the y-direction. A random number 'num_links' is generated to determine the number of links in the chain. A "base" link is generated first, positioned at (0, 0) in 2D space. From there, the remaining links (given randomized dimensions) are added to the chain. 
@@ -7,20 +10,12 @@ Next, "branches" are added in the x and z directions. For each direction, the pr
 
 The diagram below provides a visual summary of the growth process.
 <p align="center">
-    <img src="./sims-diag.jpg" width="30%" height="30%"/>
+    <img src="./Computer Science 396_ Artificial Life-22.jpg" width="50%" height="50%"/>
 </p>
+
+In both of the phenotype diagrams above, the green arrows show the direction of growth of the branch links (colored blue) at each spine link (colored black).
 
 Each time a new joint and link pair is generated, a random boolean value is also generated to decide whether or not that link will have a sensor. Sensor neurons are added only for the links for which this boolean is set to True. The link is colored green if the sensor boolean is True, and blue otherwise. Random values for the entire program were generated using the random module.
-
-The diagram below shows an example of branching in the x direction.
-<p align="center">
-    <img src="./x-graph.jpg" width="30%" height="30%"/>
-</p>
-The diagram below shows an example of branching in the z direction.
-<p align="center">
-    <img src="./z-graph.jpg" width="30%" height="30%"/>
-</p>
-In both of the diagrams above, the green arrows show the direction of growth of the branch links (colored blue) at each spine link (colored black).
 
 
 Evolution was simulated by mutating the randomly generated robots at each generation. The type of mutation made was randomly determined. The possible types of mutations were:
@@ -29,9 +24,21 @@ Evolution was simulated by mutating the randomly generated robots at each genera
 - The probability of larger links was increased
 - The probability of smaller links was increased
 - The weights of the synapses were randomly altered
+<p align="center">
+    <img src="./Computer Science 396_ Artificial Life-23.jpg" width="70%" height="70%"/>
+</p>
 
 If a mutation in the parent led to an increase in fitness for the child, the child replaced the parent, thus keeping track of the maximum obtained fitness.
 
+Evolution used parallell hill climber
+<p align="center">
+    <img src="./Computer Science 396_ Artificial Life-21.jpg" width="50%" height="50%"/>
+</p>
+
+The fitness curves are shown below.
+<p align="center">
+    <img src="./FFigureAGAIIN.png" width="50%" height="50%"/>
+</p>
 
 # usage
 Run search.py to generate a random kinematic chain.
