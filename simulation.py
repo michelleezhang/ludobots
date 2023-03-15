@@ -9,7 +9,7 @@ import constants as c
 import time as time
 
 class SIMULATION:
-    def __init__(self, directOrGUI, solutionID):
+    def __init__(self, directOrGUI, solutionID, path=""):
         self.directOrGUI = directOrGUI
         # p.DIRECT gives "blind mode", p.GUI shows the animation
         if self.directOrGUI == "DIRECT":
@@ -24,7 +24,7 @@ class SIMULATION:
         p.setGravity(0, 0, -9.8)
 
         self.world = WORLD()
-        self.robot = ROBOT(solutionID)
+        self.robot = ROBOT(solutionID, path)
 
     def run(self):
         for i in range(c.num_iterations):

@@ -1,5 +1,9 @@
-import numpy as numpy
-pi_four = numpy.pi / 4.0
+import numpy as np
+import random
+
+seed = 6
+
+pi_four = np.pi / 4.0
 
 num_iterations = 1000
 time_step = 1/100 # 1/200
@@ -7,11 +11,11 @@ time_step = 1/100 # 1/200
 max_force = 200
 amplitude = pi_four
 frequency = 10
-offset = numpy.pi / 8.0
+offset = np.pi / 8.0
 
-numberOfGenerations = 30 # 100 
-populationSize = 5 # 10
+numberOfGenerations = 12 #500
+populationSize = 2 # 10
 
-# numSensorNeurons = 2 # number of things in linkNames (in solution.py)
+# numSensorNeurons = 4 # number of things in linkNames (in solution.py)
 # numMotorNeurons = 2 # number of things in jointNames (in solution.py)
 motorJointRange = 0.3

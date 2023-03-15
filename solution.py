@@ -1,5 +1,5 @@
 import os
-import numpy
+import numpy as np
 import pyrosim.pyrosim as pyrosim
 import random
 import time
@@ -9,21 +9,26 @@ class SOLUTION:
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
 
+        # create seed
+        self.seed = c.seed
+        random.seed(self.seed)
+
         self.linkNames = []
         self.jointNames = []
 
-        #self.weights = numpy.array([
-        #         numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
-        # ])
-        # self.weights = (self.weights * 2) - 1
-    
+        self.minsize = 0.5
+        self.maxsize = 1.1
+        self.num_branchlinks = [random.randint(3, 6), random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)]
+        # y, x, -x, z
+
+#         #self.weights = numpy.array([
+#         #         numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
+#         # ])
+#         # self.weights = (self.weights * 2) - 1
+
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
-        self.Create_Body(0.5, 1.1, [3, 0, 0, 0], [6, 2, 2, 2])
-        # # minsize, maxsize = 0.5, 1
-        # minbranch = [3, 0, 0, 0] 
-        # y, x, -x, z
-        # maxbranch = [6, 2, 2, 2]
+        self.Create_Body()
         self.Create_Brain()
         os.system('python3 simulate.py ' + directOrGUI + ' ' + str(self.myID) + ' 2&>1 &')
 
@@ -41,17 +46,13 @@ class SOLUTION:
         pyrosim.Send_Cube(name="Box", pos=[-5, 0, 0.25], size=[1, 1, 0.5])
         pyrosim.End()
 
-    def Create_Body(self, minsize, maxsize, minbranch, maxbranch): 
-        # minsize, maxsize = 0.5, 1
-        # minbranch = [3, 0, 0, 0] 
-        # y, x, -x, z
-        # maxbranch = [6, 2, 2, 2]
+    def Create_Body(self): 
         self.linkNames = []
         self.jointNames = []
 
         # branching helper function
         def create_branches(direction, num_links, spine_name, linksize_x, linksize_y, linksize_z):
-                linksize = [random.uniform(minsize, maxsize), random.uniform(minsize, maxsize), random.uniform(minsize, maxsize)]
+                linksize = [random.uniform(self.minsize, self.maxsize), random.uniform(self.minsize, self.maxsize), random.uniform(self.minsize, self.maxsize)]
                 prev_linksize = linksize 
                 
                 if direction == "+x":
@@ -118,25 +119,25 @@ class SOLUTION:
         # after that, relative to prev joint 
 
         # generate all z positions randomly in a list
-        num_links = random.randint(minbranch[0], maxbranch[0])
-        linksize_z = numpy.array([random.uniform(minsize, maxsize) for j in range(num_links + 1)])
+        num_links = self.num_branchlinks[0]
+        linksize_z = np.array([random.uniform(self.minsize, self.maxsize) for j in range(num_links + 1)])
 
         # create root cube
-        prev_linksize_x = random.uniform(minsize, maxsize)
-        prev_linksize_y = random.uniform(minsize, maxsize)
+        prev_linksize_x = random.uniform(self.minsize, self.maxsize)
+        prev_linksize_y = random.uniform(self.minsize, self.maxsize)
 
         pyrosim.Send_Cube(name = "Link0", pos = [0, 0, linksize_z[0] / 2], size = [prev_linksize_x, prev_linksize_y, linksize_z[0]], sensor_boolean=False)
 
         for i in range(1, num_links):   
-            linksize_x = random.uniform(minsize, maxsize)
-            linksize_y = random.uniform(minsize, maxsize)
+            linksize_x = random.uniform(self.minsize, self.maxsize)
+            linksize_y = random.uniform(self.minsize, self.maxsize)
 
             parent_name = "Link" +  str(i - 1)
             child_name = "Link" +  str(i)
 
             if i == 1:
                 jointposn_y = prev_linksize_y / 2
-                jointposn_z = numpy.max(linksize_z) / 2
+                jointposn_z = np.max(linksize_z) / 2
             else:
                 jointposn_y = prev_linksize_y
                 jointposn_z = 0
@@ -156,10 +157,13 @@ class SOLUTION:
             pyrosim.Send_Cube(name = child_name, pos = [0, linksize_y / 2, 0], size = [linksize_x, linksize_y, linksize_z[i]], sensor_boolean=sensor_boolean)
 
             # create branches!
-            create_branches("+x", random.randint(minbranch[1], maxbranch[1]), child_name, linksize_x, linksize_y, linksize_z[i])
-            create_branches("-x", random.randint(minbranch[2], maxbranch[2]), child_name, linksize_x, linksize_y, linksize_z[i])
-            create_branches("+z", random.randint(minbranch[3], maxbranch[3]), child_name, linksize_x, linksize_y, linksize_z[i])
-                
+            create_branches("+x", self.num_branchlinks[1], child_name, linksize_x, linksize_y, linksize_z[i])
+            create_branches("-x", self.num_branchlinks[2], child_name, linksize_x, linksize_y, linksize_z[i])
+            create_branches("+z", self.num_branchlinks[3], child_name, linksize_x, linksize_y, linksize_z[i])
+            
+            # max link = 10
+            # talk abt limitatiosn
+
         pyrosim.End()
 
     def Create_Brain(self):
@@ -168,7 +172,6 @@ class SOLUTION:
         sensorcount = 0 
         while sensorcount < len(self.linkNames):
             pyrosim.Send_Sensor_Neuron(name = sensorcount, linkName = self.linkNames[sensorcount])
-            #print(self.linkNames[sensorcount])
             sensorcount += 1
         
         i =  0 
@@ -178,8 +181,8 @@ class SOLUTION:
             motorcount += 1
             i += 1
 
-        self.weights = numpy.array([
-                numpy.array([numpy.random.rand() for i in range(len(self.jointNames))]) for j in range(len(self.linkNames))
+        self.weights = np.array([
+                np.array([np.random.rand() for i in range(len(self.jointNames))]) for j in range(len(self.linkNames))
         ])
         self.weights = (self.weights * 2) - 1
 
@@ -188,77 +191,57 @@ class SOLUTION:
             for currentColumn in range(len(self.jointNames)):
                 pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn + len(self.linkNames), weight = self.weights[currentRow][currentColumn])
 
-        # # generate a synapse
-        # for currentRow in range(c.numSensorNeurons):        
-        #     for currentColumn in range(c.numMotorNeurons):
-        #         pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn + c.numSensorNeurons, weight = self.weights[currentRow][currentColumn])
-
         pyrosim.End()
     
-    def Mutate(self, minsize, maxsize, minbranch, maxbranch): 
-        # minsize, maxsize, minbranch, maxbranch): 
-        os.system('rm brain*.nndf')
-        os.system('rm body*.urdf')
-        os.system('rm fitness*.txt')
+    def Mutate(self): 
+        # os.system('rm brain*.nndf')
+        # os.system('rm body*.urdf')
+        # os.system('rm fitness*.txt')
         check = random.randint(1, 10)
 
         if check == 1:
             # smaller blocks
-            minsize *= 0.5
-            maxsize *= 0.7
+            self.minsize *= 0.5
+            self.maxsize *= 0.7
         elif check == 2:
             # bigger blocks
-            minsize *= 1.2
-            maxsize *= 1.5
+            self.minsize *= 1.2
+            self.maxsize *= 1.5
         elif check == 4:
             # more x
-            maxbranch[1] += 1
-            minbranch[1] += 1
-            maxbranch[2] += 1
-            minbranch[2] += 1
+            self.num_branchlinks[1] += 1
+            self.num_branchlinks[2] += 1
         elif check == 5:
             # less x
-            if minbranch[1] > 0:
-                minbranch[1] -= 1
-                maxbranch[1] -= 1
-            else:
-                minsize *= 0.7 
-            if minbranch[2] > 0:
-                minbranch[1] -= 1
-                maxbranch[1] -= 1
-            else:
-                minsize *= 1.2
+            self.num_branchlinks[1] = max(0, self.num_branchlinks[1] - 1)
+            self.num_branchlinks[2] = max(0, self.num_branchlinks[2] - 1)
+            if self.num_branchlinks[1] == 0 and self.num_branchlinks[2] == 0:
+                 self.minsize *= 0.7
         elif check == 6:
             # more y
-            maxbranch[0] += 1
-            minbranch[0] += 1
+            self.num_branchlinks[0] += 1
         elif check == 7:
             # less y
-            if minbranch[0] > 0:
-                minbranch[0] -= 1
-                maxbranch[0] -= 1
-            else:
-                minsize *= 0.7
+            self.num_branchlinks[0] = max(0, self.num_branchlinks[0] - 1)
+            if self.num_branchlinks[0] == 0:
+                 self.minsize *= 0.7
         elif check == 8:
             # more z
-            maxbranch[3] += 1
-            minbranch[3] += 1
+            self.num_branchlinks[3] += 1
         elif check == 9:
              # less z
-            if minbranch[3] > 0:
-                minbranch[3] -= 1
-                maxbranch[3] -= 1
-            else:
-                minsize *= 0.7
+             self.num_branchlinks[3] = max(0, self.num_branchlinks[3] - 1)
+             if self.num_branchlinks[3] == 0:
+                 self.minsize *= 0.7
         else:
+            if (len(self.linkNames) - 1) < 0 or (len(self.jointNames) - 1) < 0:
+                pass
             randomRow = random.randint(0, len(self.linkNames) - 1)
             randomColumn = random.randint(0, len(self.jointNames) - 1)
             self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
-        self.Create_Body(minsize, maxsize, minbranch, maxbranch)
+        self.Create_Body()
         self.Create_Brain()
-
-        return minsize, maxsize, minbranch, maxbranch
 
 
     def Set_ID(self, id):

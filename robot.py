@@ -8,9 +8,9 @@ import constants as c
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 
 class ROBOT:
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, path=""):
         self.solutionID = solutionID
-        self.robotId = p.loadURDF("body" + str(self.solutionID) + ".urdf")
+        self.robotId = p.loadURDF(f"{path}body" + str(self.solutionID) + ".urdf")
 
         pyrosim.Prepare_To_Simulate(self.robotId)
 
@@ -18,10 +18,10 @@ class ROBOT:
         self.Prepare_To_Act() #???
 
         # creates a neural network (self.nn), and adds any neurons and synapses to it from brain.nndf.
-        self.nn = NEURAL_NETWORK("brain" + str(self.solutionID) + ".nndf")
+        self.nn = NEURAL_NETWORK(f"{path}brain" + str(self.solutionID) + ".nndf")
 
-        os.system('rm body' + str(self.solutionID) + '.urdf')
-        os.system('rm brain' + str(self.solutionID) + '.nndf')
+        # os.system('rm body' + str(self.solutionID) + '.urdf')
+        # os.system('rm brain' + str(self.solutionID) + '.nndf')
        
         
     
