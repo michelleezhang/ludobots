@@ -1,5 +1,5 @@
 # ludobots
-This project showcases the simulated evolution of 3D rigid robots. 
+This project showcases the simulated evolution of 3D rigid robots, inspired by real life evolution of organisms on Earth. The goal is to see what kinds of "creatures" we can generate when evolution is not restricted by the same physical constraints that it experiences in the real world. 
 <p align="center">
     <img src="./ludobots-final trailer - 4K.gif" width="50%" height="50%"/>
 </p>
