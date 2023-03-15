@@ -1,4 +1,5 @@
 # ludobots
+This project showcases the simulated evolution of 3D rigid robots. 
 <p align="center">
     <img src="./ludobots-final trailer - 4K.gif" width="50%" height="50%"/>
 </p>
@@ -6,7 +7,7 @@
 Video: https://youtu.be/uKB8FFeYaAg 
 
 # robot generation
-This program generates a 3D creature (jointed, motorized, sensorized) with a random number of links (with random dimensions) and random sensor placement. Links with sensors are colored green, and links without sensors are colored blue.
+Robots are composed of 3D blocks called "links" connected by joints, and have sensors that define how the robot moves. This program generates 3D jointed, motorized, and sensorized robots with a random number of links (with random dimensions) and random sensor placement. Links with sensors are colored green, and links without sensors are colored blue.
 
 First, a "spine" chain is grown in the y-direction. A random number 'num_links' is generated to determine the number of links in the chain. A "base" link is generated first, positioned at (0, 0) in 2D space. From there, the remaining links (given randomized dimensions) are added to the chain. 
 
@@ -21,6 +22,8 @@ In both of the phenotype diagrams above, the green arrows show the direction of 
 
 Each time a new joint and link pair is generated, a random boolean value is also generated to decide whether or not that link will have a sensor. Sensor neurons are added only for the links for which this boolean is set to True. The link is colored green if the sensor boolean is True, and blue otherwise. Random values for the entire program were generated using the random module.
 
+Random robot generation occurs in the solution.py file.
+
 # robot evolution
 
 Evolution was simulated by mutating the randomly generated robots at each generation. The type of mutation made was randomly determined. The possible types of mutations were:
@@ -28,6 +31,7 @@ Evolution was simulated by mutating the randomly generated robots at each genera
 - The probability of fewer links in the x, y, or z directions was increased
 - The probability of larger links was increased
 - The probability of smaller links was increased
+To select a mutation, a random integer was generated between 1 and 10, each corresponding to a different mutation. This resulted in a 10% chance of each type of body mutation, and a 20% chance of a mutation that alters a synapse weight. Thiis process is depicted in the following diagram.
 - The weights of the synapses were randomly altered
 <p align="center">
     <img src="./Computer Science 396_ Artificial Life-23.jpg" width="70%" height="70%"/>
@@ -44,6 +48,9 @@ The fitness curves are shown below.
 <p align="center">
     <img src="./FFigureAGAIIN.png" width="50%" height="50%"/>
 </p>
+
+Robot mutation occurs in the solution.py file, and the PHC algorithm is run in the parallelHillClimber.py file.
+
 
 # usage
 Run search.py to generate a random kinematic chain.
