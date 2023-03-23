@@ -78,3 +78,12 @@ Python package requirements: random, numpy, pybullet
 - Ludobots MOOC on Reddit (https://www.reddit.com/r/ludobots/)
 - Evolving Virtual Creatures by Karl Sims (https://www.karlsims.com/papers/siggraph94.pdf)
 - Project built on pyrosim (https://github.com/jbongard/pyrosim)
+
+# misc.
+# usage
+The branches of this repository document various stages of progress in creating this project. See each branch for further details. 
+Branches to note include:
+- ParallelHC: evolving creature for a given fitness function over multiple generations with a given population size
+- Quadruped: evolved four-legged creature
+- Randomm snake: random kinematic chain generation (1 dimension)
+- Morphospace: expanding creature generation in 3 dimensions
