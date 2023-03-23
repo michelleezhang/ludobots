@@ -3,7 +3,6 @@ import constants as c
 import copy
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
@@ -31,11 +30,9 @@ class PARALLEL_HILL_CLIMBER:
 
         return self.fitnessArray
     
-            # save the best fitness at each generation 
-            # After the ith cycle of evaluation,
-            # iterate over all parents to find the best fitness, 
-            # and then store this value at the ith position of a one-dimensional array. 
-            # Then at the end of evolution you can just plot this array without modification
+        # save the best fitness at each generation 
+        # after the ith cycle of evaluation, iterate over all parents to find the best fitness, 
+        # and then store this value at the ith position of a one-dimensional array
 
         
     def Evolve_For_One_Generation(self):

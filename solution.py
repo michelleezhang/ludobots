@@ -21,11 +21,6 @@ class SOLUTION:
         self.num_branchlinks = [random.randint(3, 6), random.randint(0, 2), random.randint(0, 2), random.randint(0, 2)]
         # y, x, -x, z
 
-#         #self.weights = numpy.array([
-#         #         numpy.array([numpy.random.rand() for i in range(c.numMotorNeurons)]) for j in range(c.numSensorNeurons)
-#         # ])
-#         # self.weights = (self.weights * 2) - 1
-
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
@@ -160,9 +155,6 @@ class SOLUTION:
             create_branches("+x", self.num_branchlinks[1], child_name, linksize_x, linksize_y, linksize_z[i])
             create_branches("-x", self.num_branchlinks[2], child_name, linksize_x, linksize_y, linksize_z[i])
             create_branches("+z", self.num_branchlinks[3], child_name, linksize_x, linksize_y, linksize_z[i])
-            
-            # max link = 10
-            # talk abt limitatiosn
 
         pyrosim.End()
 
@@ -194,9 +186,6 @@ class SOLUTION:
         pyrosim.End()
     
     def Mutate(self): 
-        # os.system('rm brain*.nndf')
-        # os.system('rm body*.urdf')
-        # os.system('rm fitness*.txt')
         check = random.randint(1, 10)
 
         if check == 1:
